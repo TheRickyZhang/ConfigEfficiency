@@ -13,5 +13,4 @@
 4. [Duplicate Tab Shortcut](https://chrome.google.com/webstore/detail/duplicate-tab-shortcut/bldjhijhndnjnpjafjphdndfmfnmhckb?hl=en)  
    - Use `Alt+Shift+D` (Duplicate), `Alt+Shift+R` (Duplicate to Right).
 
-## Other
-- [React Dev Tools](https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi)
+And ublock origin, the most effective extension, obviously.
