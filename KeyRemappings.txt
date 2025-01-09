@@ -1,0 +1,59 @@
+Switching between IDEs with different mappings is a pain. Here are my most intuitive.
+Shortcut            Binding                 Clion Name                  Visual Studio Name          VSCode Name
+
+Recent Tabs:        Alt + F                 fdsaf                   Window.NextDocumentWindowNav
+.h/.cpp File:       Ctrl + K, Ctrl + O 
+Find:               Ctrl + F  (Add VSCode)
+Replace:            Ctrl + H  (VS, VSCode)
+
+Settings:           Ctrl+Alt+S (Clion)
+
+Cut Word Begin      Alt + Shift + U         | Delete to Word Start |    Edit.WordDeleteToStart
+Cut Word End        Alt + Shift + I         | Delete to Word End   |    Edit.WordDeleteToEnd
+Cut Line Left:      Alt + Shift + J         | Delete to Line Start |    Edit.BriefLineDeleteToStart
+Cut Line Right:     Alt + Shift + K         | Delete to Line End   |    Edit.BriefLineDeleteToEnd
+Cut Line:           Alt + Shift + L         | Delete Line          |    Edit.LineCut
+
+Select Line Left:   Ctrl + U                | Move Caret to Line Start with Selection  |    Edit.LineStart
+Select Line Right:  Ctrl + I                | Move Caret to Line End with Selection    |    Edit.LineEnd
+Select Line:        Ctrl + L                | Select Single Line at Caret              |    Edit.BriefSelectLine
+// Select Current Word: Ctrl + J (VS)       Edit.SelectCurrentWord
+// Select Line Down:   Alt + Shift + U
+// Select Line Up:     Alt + Shift + N
+
+
+Cut Line (L):       Ctrl + I   *
+Cut Line (R):       Ctrl + O   *
+
+Move Line:          Alt + Arrow
+Scroll:             Ctrl + Arrow
+
+
+Added to Clion: Editor -> Code Style -> Inspections -> Clang-Tidy  (remove warnings about .size())
+-modernize-use-empty,-cppcoreguidelines-narrowing-conversions
+
+
+
+
+h::Send("{Left}")
+j::Send("{Down}")
+k::Send("{Up}")
+l::Send("{Right}")
+
+s::Send("^{Left}")
+d::Send("^{Right}")
+w::Send("^+{Left}") 
+e::Send("^+{Right}")
+p::Send("{Backspace}") 
+x::Send("{Delete}")
++j::Send("{PgDn}")
++k::Send("{PgUp}")
+
+; global isVimMode := false
+; !k:: {
+;    global isVimMode
+;    isVimMode := !isVimMode
+;    Tooltip(isVimMode ? "Vim Mode: ON" : "Vim Mode: OFF", , , 1)
+;    SetTimer(() => Tooltip("", , , 1), 100) ;
+;}
+;#HotIf isVimMode
