@@ -2,15 +2,15 @@
 #SingleInstance Force
 
 ; CLion, Visual Studio, VSCode my beloved
-^!c:: {
+^!8:: {
     SetWorkingDir("C:\Users\ricky")
     Run("C:\Program Files\JetBrains\CLion 2024.3\bin\clion64.exe")
 }
-^!v:: {
+^!9:: {
     SetWorkingDir("C:\Users\ricky")
     Run('"C:\Users\ricky\AppData\Local\Programs\Microsoft VS Code\Code.exe"')
 }
-^!s:: {
+^!0:: {
     SetWorkingDir("C:\Users\ricky")
     Run("C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\devenv.exe")
 }
@@ -29,6 +29,7 @@
     ToolTip("")
 }
 
+
 ; Alt > Capslock
 CapsLock::Alt
 
@@ -46,27 +47,34 @@ CapsLock::Alt
 !d::Send("^{Right}")
 !w::Send("{Left}")
 !r::Send("{Right}")
-!Space::Send("{Down}") ; Legacy
-#Space::Send("{Up}")   ; Legacy
-!n::Send("{Down}") 
-!m::Send("{Up}") 
-
+!Space::Send("{Down}")
+#Space::Send("{Up}")
+!n:: {
+    Loop 10 {
+        Send("{Down}")
+    }
+}
+!m:: {
+    Loop 10 {
+        Send("{Up}")
+    }
+}
 
 ; Delete words/lines
 !+u::Send("^+{Left}{Del}")
 !+i::Send("^+{Right}{Del}")
 !+j::Send("+{Home}{Del}")
 !+k::Send("+{End}{Del}")
-!+l::Send("{Home}+{End}{Del}")
+!+l::Send("{Home}+{End}{Del}{Backspace}") ; To work in clion map extend to line end -> shift+end
 !+m::Send("{Up}{Home}+{End}{Del}")
 !+n::Send("{Down}{Home}+{End}{Del}")
 
 ; Select Words/lines
-^u::Send("^+{Left}")
-^i::Send("^+{Right}")
-^l::Send("{Home}+{End}")
-^!n::Send("+{Down}")
-^#m::Send("+{Up}")
+^u::Send("^+{Left}^c")
+^i::Send("^+{Right}^c")
+^l::Send("{Home}+{End}^c")
+^!n::Send("+{Down}^c")
+^!m::Send("+{Up}^c")
 
 ; Move lines
 ^+!n::Send("!{Down}")
@@ -80,6 +88,7 @@ CapsLock::Alt
 !q::Send("{+}")
 
 !u::Send("[")
+!o::Send("]")
 !l::Send("]")
 
 ; Identity mappings for convenience holding down keys
