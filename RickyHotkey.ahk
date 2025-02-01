@@ -65,7 +65,7 @@ CapsLock::Alt
 !+i::Send("^+{Right}{Del}")
 !+j::Send("+{Home}{Del}")
 !+k::Send("+{End}{Del}")
-!+l::Send("{Home}+{End}{Del}{Backspace}") ; To work in clion map extend to line end -> shift+end
+!+l::Send("{Home}+{End}{Del}") ; To work in clion map extend to line end -> shift+end
 !+m::Send("{Up}{Home}+{End}{Del}")
 !+n::Send("{Down}{Home}+{End}{Del}")
 
