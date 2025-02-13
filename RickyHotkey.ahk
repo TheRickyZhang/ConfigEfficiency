@@ -70,7 +70,7 @@ CapsLock::Alt
 !+n::Send("{Down}{Home}+{End}{Del}")
 
 ; Select Words/lines
-^u::Send("^+{Left}^c")
+; ^u::Send("^+{Left}^c")
 ^i::Send("^+{Right}^c")
 ^l::Send("{Home}+{End}^c")
 ^!n::Send("+{Down}^c")

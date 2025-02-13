@@ -1,3 +1,12 @@
+### Set PowerShell 7 as Default Terminal
+1. Add an entry in `settings.json` of your terminal.
+2. Set the default ID to PowerShell 7.
+
+### Node.js Permissions Issue
+- If encountering weird permissions issues with installing Node.js and related tools:
+  - Check both `AppData/Roaming` and `Program Files` locations.
+  - Manually copy or sync the files between these locations.
+
 # Chrome Extensions and Shortcuts
 
 ## Primary
