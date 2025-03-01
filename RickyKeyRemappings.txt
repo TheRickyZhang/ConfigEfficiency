@@ -32,22 +32,11 @@ Scroll:             Ctrl + Arrow
 Added to Clion: Editor -> Code Style -> Inspections -> Clang-Tidy  (remove warnings about .size())
 -modernize-use-empty,-cppcoreguidelines-narrowing-conversions
 
+Ctrl + Shift + A -> Run ./run.bat
+Ctrl + Shift + N -> Create New .cpp File
 
 
-
-h::Send("{Left}")
-j::Send("{Down}")
-k::Send("{Up}")
-l::Send("{Right}")
-
-s::Send("^{Left}")
-d::Send("^{Right}")
-w::Send("^+{Left}") 
-e::Send("^+{Right}")
-p::Send("{Backspace}") 
-x::Send("{Delete}")
-+j::Send("{PgDn}")
-+k::Send("{PgUp}")
+AutoHotKey Vim Mode (If Desired);
 
 ; global isVimMode := false
 ; !k:: {

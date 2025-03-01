@@ -47,15 +47,15 @@ CapsLock::Alt
 !d::Send("^{Right}")
 !w::Send("{Left}")
 !r::Send("{Right}")
-!Space::Send("{Down}")
-#Space::Send("{Up}")
-!n:: {
-    Loop 10 {
+!n::Send("{Down}")
+!m::Send("{Up}")
+^+!n:: {
+    Loop 5 {
         Send("{Down}")
     }
 }
-!m:: {
-    Loop 10 {
+^+!m:: {
+    Loop 5 {
         Send("{Up}")
     }
 }
@@ -70,15 +70,15 @@ CapsLock::Alt
 !+n::Send("{Down}{Home}+{End}{Del}")
 
 ; Select Words/lines
-; ^u::Send("^+{Left}^c")
+^u::Send("^+{Left}^c")
 ^i::Send("^+{Right}^c")
 ^l::Send("{Home}+{End}^c")
-^!n::Send("+{Down}^c")
-^!m::Send("+{Up}^c")
+^!j::Send("+{Down}^c")
+^!k::Send("+{Up}^c")
 
 ; Move lines
-^+!n::Send("!{Down}")
-^+!m::Send("!{Up}")
+^+j::Send("!{Down}")
+^+k::Send("!{Up}")
 
 ; Grr you're just too far...
 !e::Send("{Enter}")
