@@ -1,4 +1,16 @@
 # powershell.ps1
+Set-Alias redis-cli "C:\Libraries\Redis\redis-cli.exe"
+function run-redis {
+    redis-cli.exe -h redis-13662.c13.us-east-1-3.ec2.cloud.redislabs.com -p 13662 -a y3fJt9kYkw5WVwDYMI8XPY4tXb6KF0pr
+}
+
+Set-Alias python3 python
+function pfp { notepad $PROFILE }
+function pfp. { . $PROFILE }
+
+function Show-Path {
+    $env:PATH -split ';' | ForEach-Object { $_ }
+}
 
 Write-Host "Setting keyboard repeat settings..."
 Set-ItemProperty -Path "HKCU:\Control Panel\Keyboard" -Name "KeyboardSpeed" -Value 31
@@ -13,6 +25,10 @@ if (!(Test-Path -Path $PROFILE)) {
 $profileContent = @'
 $env:PATH = ($env:PATH -split ";" | Select-Object -Unique) -join ";"
 
+function ch { git checkout $args }
+function rb { git rebase $args }
+function or { git remote -v }
+function cp { git cherry-pick $args }
 function gitpush { param([string]$message) git add .; git commit -m "$message"; git push }
 function gitpushf { param([string]$message) git add .; git commit -m "$message"; git push --force-with-lease }
 function gitri { param([int]$number) git rebase -i HEAD~$number }

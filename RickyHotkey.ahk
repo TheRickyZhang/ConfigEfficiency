@@ -36,72 +36,70 @@ CapsLock::Alt
 ; This should be a default for all curly bracket languages
 !;:: {
     Send("{{}")
-    Sleep(10)   
+    Sleep(10)
     Send("{Enter}")
 }
 
 ; Move around
-!.::Send("{End}")
-!,::Send("{Home}")
-!s::Send("^{Left}")
-!d::Send("^{Right}")
-!w::Send("{Left}")
-!r::Send("{Right}")
-!n::Send("{Down}")
-!m::Send("{Up}")
-^+!n:: {
+!.:: Send("{End}")
+!,:: Send("{Home}")
+!s:: Send("^{Left}")
+!d:: Send("^{Right}")
+!w:: Send("{Left}")
+!r:: Send("{Right}")
+!n:: Send("{Down}")
+!m:: Send("{Up}")
+!Space:: Send("{Down}")
+!+n:: {
     Loop 5 {
         Send("{Down}")
     }
 }
-^+!m:: {
+!+m:: {
     Loop 5 {
         Send("{Up}")
     }
 }
 
 ; Delete words/lines
-!+u::Send("^+{Left}{Del}")
-!+i::Send("^+{Right}{Del}")
-!+j::Send("+{Home}{Del}")
-!+k::Send("+{End}{Del}")
-!+l::Send("{Home}+{End}{Del}") ; To work in clion map extend to line end -> shift+end
-!+m::Send("{Up}{Home}+{End}{Del}")
-!+n::Send("{Down}{Home}+{End}{Del}")
+!+u:: Send("^+{Left}{Del}")
+!+i:: Send("^+{Right}{Del}")
+!+j:: Send("+{Home}{Del}")
+!+k:: Send("+{End}{Del}")
+!+l:: Send("{Home}+{End}{Del}") ; To work in clion map extend to line end -> shift+end
 
 ; Select Words/lines
-^u::Send("^+{Left}^c")
-^i::Send("^+{Right}^c")
-^l::Send("{Home}+{End}^c")
-^!j::Send("+{Down}^c")
-^!k::Send("+{Up}^c")
+^u:: Send("^+{Left}^c")
+^i:: Send("^+{Right}^c")
+^l:: Send("{Home}+{End}^c")
+^!j:: Send("+{Down}^c")
+^!k:: Send("+{Up}^c")
 
 ; Move lines
-^+j::Send("!{Down}")
-^+k::Send("!{Up}")
+^+j:: Send("!{Down}")
+^+k:: Send("!{Up}")
 
 ; Grr you're just too far...
-!e::Send("{Enter}")
-!p::Send("{Backspace}") 
+!e:: Send("{Enter}")
+!p:: Send("{Backspace}")
 
-!a::Send("=")
-!q::Send("{+}")
+!a:: Send("=")
+!q:: Send("{+}")
 
-!u::Send("[")
-!o::Send("]")
-!l::Send("]")
+!u:: Send("[")
+!l:: Send("]")
+!o:: Send("0")
 
 ; Identity mappings for convenience holding down keys
-!i::Send("i")
-!j::Send("j")
-!k::Send("k")
-!x::Send("x")
-!y::Send("y")
-!0::Send("0")
-!1::Send("1")
-!2::Send("2")
-!3::Send("3")
-!4::Send("4")
+!i:: Send("i")
+!j:: Send("j")
+!k:: Send("&")
+!x:: Send("x")
+!y:: Send("y")
+!0:: Send("0")
+!1:: Send("1")
+!2:: Send("2")
+!3:: Send("3")
+!4:: Send("4")
 
 #HotIf
-
