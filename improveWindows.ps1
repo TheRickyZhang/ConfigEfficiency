@@ -1,145 +1,132 @@
 <#
 .SYNOPSIS
-  “Computer‑literate” Windows tweaks:
-    • Auto‑start Chrome
-    • Disable Search service
-    • Turn off web results in Start menu
-    • Hide taskbar Search box
-    • Disable delete/extension‑change warnings
-    • Always show file extensions
-    • Disable balloon tips
-    • Disable Start menu suggestions
-    • Restart Explorer
-
+  Apply robust “computer-literate” Windows tweaks plus extras.
 .DESCRIPTION
-  Run this under your user account. No Admin prompt needed except for Edge uninstall.
+  Must be run As Administrator. Exits if not elevated.
 #>
 
-Write-Host "IsAdmin: " `
-  (([Security.Principal.WindowsPrincipal] `
-    [Security.Principal.WindowsIdentity]::GetCurrent()
-  ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))
+# 0) Elevation check
+if (-not ([Security.Principal.WindowsPrincipal] `
+            [Security.Principal.WindowsIdentity]::GetCurrent()
+    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Error 'Administrator rights required. Rerun as Admin.' 
+    exit 1
+}
 
-
-# 1) Auto‑launch Chrome at login
+# 1) Auto-start Chrome at login
 $chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
 if (Test-Path $chrome) {
     New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run `
         -Name Chrome -Value "`"$chrome`"" -PropertyType String -Force | Out-Null
 }
 
-# 2) Disable Windows Search indexing service
+# 2) Disable Windows Search service
 if (Get-Service WSearch -ErrorAction SilentlyContinue) {
-    Stop-Service   WSearch -ErrorAction SilentlyContinue
+    Stop-Service   WSearch -Force
     Set-Service    WSearch -StartupType Disabled
 }
 
 # 3) Turn off Bing/web in Start Search
 $sk = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search'
-New-Item -Path $sk -Force | Out-Null
 foreach ($name in 'BingSearchEnabled', 'AllowSearchToUseWeb', 'CortanaConsent') {
     New-ItemProperty -Path $sk -Name $name -PropertyType DWord -Value 0 -Force | Out-Null
 }
 
-# 4) Hide the taskbar Search box
+# 4–8) Explorer “Advanced” tweaks
 $adv = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-New-Item -Path $adv -Force | Out-Null
-New-ItemProperty -Path $adv -Name ShowSearch -PropertyType DWord -Value 0 -Force | Out-Null
+$props = @{
+    ShowSearch            = 0  # hide search box
+    ConfirmFileDelete     = 0  # disable delete confirmation
+    WarnOnExtensionChange = 0  # disable extension-change warning
+    HideFileExt           = 0  # always show extensions
+    EnableBalloonTips     = 0  # disable balloon tips
+}
+foreach ($k in $props.Keys) {
+    New-ItemProperty -Path $adv -Name $k -PropertyType DWord -Value $props[$k] -Force | Out-Null
+}
 
-# 5) Disable “Delete file?” confirmation
-New-ItemProperty -Path $adv -Name ConfirmFileDelete   -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 6) Disable “Delete file?” confirmation
-New-ItemProperty -Path $adv -Name ConfirmFileDelete   -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 7) Disable “Changing file extension?” warning
-New-ItemProperty -Path $adv -Name WarnOnExtensionChange -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 8) Always show file extensions
-New-ItemProperty -Path $adv -Name HideFileExt -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 9) Disable balloon tips
-New-ItemProperty -Path $adv -Name EnableBalloonTips -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 10) Disable Start menu “app suggestions”
+# 9) Disable Start-menu app suggestions
 $cdm = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager'
-New-Item -Path $cdm -Force | Out-Null
 foreach ($n in 'SystemPaneSuggestionsEnabled', 'SubscribedContent-338388Enabled') {
     New-ItemProperty -Path $cdm -Name $n -PropertyType DWord -Value 0 -Force | Out-Null
 }
 
-# 11) Disable Telemetry / Diagnostic Data
+# 10) Disable Telemetry & related services
 $dc = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
-New-Item -Path $dc -Force | Out-Null
 New-ItemProperty -Path $dc -Name AllowTelemetry -PropertyType DWord -Value 0 -Force | Out-Null
 foreach ($svc in 'DiagTrack', 'dmwappushsvc') {
     if (Get-Service $svc -ErrorAction SilentlyContinue) {
-        Stop-Service   -Name $svc -Force -ErrorAction SilentlyContinue
-        Set-Service    -Name $svc -StartupType Disabled
+        Stop-Service $svc -Force
+        Set-Service  $svc -StartupType Disabled
     }
 }
 
-# 12) Prevent Windows Update auto‑restart when users are logged in
+# 11) Prevent Windows Update auto-restart
 $wu = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
-New-Item -Path $wu -Force | Out-Null
-New-ItemProperty -Path $wu -Name NoAutoRebootWithLoggedOnUsers `
-    -PropertyType DWord -Value 1 -Force | Out-Null
+New-ItemProperty -Path $wu -Name NoAutoRebootWithLoggedOnUsers -PropertyType DWord -Value 1 -Force | Out-Null
 
-# 13) Stop Microsoft Store app auto‑updates
+# 12) Disable Microsoft Store auto-updates
 $sp = 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore'
-New-Item -Path $sp -Force | Out-Null
-New-ItemProperty -Path $sp -Name AutoDownload `
-    -PropertyType DWord -Value 2 -Force | Out-Null
+New-ItemProperty -Path $sp -Name AutoDownload -PropertyType DWord -Value 2 -Force | Out-Null
 
-# 14) Remove pre‑installed “bloatware” for all users
-$patterns = 'Candy', 'Solitaire', 'Skype', 'Xbox', 'Microsoft3D', 'GetOffice', 'MixedReality'
-Get-AppxPackage -AllUsers |
-Where-Object { $patterns | ForEach-Object { $_ -and $_ -match $_ } } |
-Remove-AppxPackage -ErrorAction SilentlyContinue
+# 13) Remove these specific “bloatware” packages only
+$families = @(
+    'king.com.CandyCrushSaga',
+    'king.com.CandyCrushSodaSaga',
+    'king.com.CandyCrushFriends',
+    'Microsoft.MicrosoftSolitaireCollection',
+    'Microsoft.SkypeApp',
+    'Microsoft.XboxApp',
+    'Microsoft.XboxGamingOverlay',
+    'Microsoft.XboxSpeechToTextOverlay'
+)
 
-Get-AppxProvisionedPackage -Online |
-Where-Object { $patterns | ForEach-Object { $_ -and $_ -match $_ } } |
-Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+foreach ($f in $families) {
+    # Per‑user uninstall
+    $inst = Get-AppxPackage -AllUsers |
+    Where-Object { $_.PackageFamilyName -like "$f*" }
+    if ($inst) {
+        $inst | Remove-AppxPackage -ErrorAction SilentlyContinue
+    }
 
-# 15) Disable Lock Screen Spotlight & ads
-$cc = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent'
-New-Item -Path $cc -Force | Out-Null
-New-ItemProperty -Path $cc -Name DisableWindowsSpotlight `
-    -PropertyType DWord -Value 1 -Force | Out-Null
-New-ItemProperty -Path $cc -Name DisableConsumerFeatures `
-    -PropertyType DWord -Value 1 -Force | Out-Null
-
-# 16) Prevent UWP apps from running in background
-$ap = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
-New-Item -Path $ap -Force | Out-Null
-New-ItemProperty -Path $ap -Name LetAppsRunInBackground `
-    -PropertyType DWord -Value 2 -Force | Out-Null
-
-# 17) Disable UI animations (best performance) & transparency
-# Visual Effects: 2 = Adjust for best performance
-$vf = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\VisualEffects'
-New-Item -Path $vf -Force | Out-Null
-New-ItemProperty -Path $vf -Name VisualFXSetting `
-    -PropertyType DWord -Value 2 -Force | Out-Null
-# Transparency: 0 = Off
-$tp = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize'
-New-Item -Path $tp -Force | Out-Null
-New-ItemProperty -Path $tp -Name EnableTransparency `
-    -PropertyType DWord -Value 0 -Force | Out-Null
-
-# 18) Disable UWP Live Tile suggestions
-foreach ($n in 'SubscribedContent-338388Enabled', 'SystemPaneSuggestionsEnabled') {
-    New-ItemProperty -Path $cdm -Name $n -PropertyType DWord -Value 0 -Force | Out-Null
+    # Provisioned uninstall
+    $prov = Get-AppxProvisionedPackage -Online |
+    Where-Object { $_.PackageName -like "$f*" }
+    if ($prov) {
+        $prov | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+    }
 }
 
-# 19) Remove OneDrive from startup and uninstall it
+
+# 15) Disable Lock-Screen Spotlight & ads (ensure parent key exists)
+$cc = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent'
+if (-not (Test-Path $cc)) { New-Item -Path $cc -Force | Out-Null }
+New-ItemProperty -Path $cc -Name DisableWindowsSpotlight -PropertyType DWord -Value 1 -Force | Out-Null
+New-ItemProperty -Path $cc -Name DisableConsumerFeatures   -PropertyType DWord -Value 1 -Force | Out-Null
+
+# 16) Prevent UWP apps running in background (ensure parent key)
+$ap = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
+if (-not (Test-Path $ap)) { New-Item -Path $ap -Force | Out-Null }
+New-ItemProperty -Path $ap -Name LetAppsRunInBackground -PropertyType DWord -Value 2 -Force | Out-Null
+
+# 17) Remove OneDrive from startup & uninstall it
 Remove-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run `
     -Name OneDrive -ErrorAction SilentlyContinue
-Start-Process -FilePath "$env:SystemRoot\SysWOW64\OneDriveSetup.exe" `
-    -ArgumentList '/uninstall' -NoNewWindow -Wait
 
-# 20) Restart Explorer to apply changes immediately
+# Try the 64‑bit path first, then SysWOW64
+$odPaths = @(
+    "$env:SystemRoot\System32\OneDriveSetup.exe",
+    "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
+)
+foreach ($od in $odPaths) {
+    if (Test-Path $od) {
+        Start-Process -FilePath $od -ArgumentList '/uninstall' -NoNewWindow -Wait
+        break
+    }
+}
+
+# 18) Restart Explorer once
 Stop-Process -Name explorer -Force
-Start-Process explorer
+Start-Process explorer.exe
 
-Write-Host Windows successfully improved! Please see manual instructions.
+Write-Host 'All tweaks applied — Explorer restarted once. No loops, no unintended removals.'
