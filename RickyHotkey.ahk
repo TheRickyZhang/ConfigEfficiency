@@ -76,8 +76,8 @@ CapsLock::Alt
 ^!k:: Send("+{Up}^c")
 
 ; Move lines
-^+j:: Send("!{Down}")
-^+k:: Send("!{Up}")
+^!+j:: Send("!{Down}")
+^!+k:: Send("!{Up}")
 
 ; Grr you're just too far...
 !e:: Send("{Enter}")
