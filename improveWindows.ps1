@@ -20,11 +20,7 @@ if (Test-Path $chrome) {
         -Name Chrome -Value "`"$chrome`"" -PropertyType String -Force | Out-Null
 }
 
-# 2) Disable Windows Search service
-if (Get-Service WSearch -ErrorAction SilentlyContinue) {
-    Stop-Service   WSearch -Force
-    Set-Service    WSearch -StartupType Disabled
-}
+# 2) skip
 
 # 3) Turn off Bing/web in Start Search
 $sk = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search'
@@ -35,7 +31,7 @@ foreach ($name in 'BingSearchEnabled', 'AllowSearchToUseWeb', 'CortanaConsent') 
 # 4–8) Explorer “Advanced” tweaks
 $adv = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
 $props = @{
-    ShowSearch            = 0  # hide search box
+    ShowSearch            = 1  # show search box
     ConfirmFileDelete     = 0  # disable delete confirmation
     WarnOnExtensionChange = 0  # disable extension-change warning
     HideFileExt           = 0  # always show extensions
