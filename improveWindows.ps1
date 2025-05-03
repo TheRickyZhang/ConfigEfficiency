@@ -1,128 +1,165 @@
 <#
 .SYNOPSIS
-  Apply robust “computer-literate” Windows tweaks plus extras.
+  Apply robust computer-literate Windows tweaks plus extras.
 .DESCRIPTION
-  Must be run As Administrator. Exits if not elevated.
+  Must be run as Administrator. Exits if not elevated.
 #>
 
+function Ensure-RegistryKey {
+    param([string]$Path)
+    if (-not (Test-Path $Path)) {
+        New-Item -Path $Path -Force | Out-Null
+    }
+}
+
+function Set-RegistryProperty {
+    param(
+        [string]$Path,
+        [string]$Name,
+        [string]$PropertyType,
+        [object]$Value
+    )
+    Ensure-RegistryKey $Path
+    New-ItemProperty -Path $Path -Name $Name -PropertyType $PropertyType -Value $Value -Force | Out-Null
+    Write-Host "Set $Name in $Path to $Value"
+}
+
 # 0) Elevation check
-if (-not ([Security.Principal.WindowsPrincipal] `
-            [Security.Principal.WindowsIdentity]::GetCurrent()
-    ).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Write-Error 'Administrator rights required. Rerun as Admin.' 
+if (-not (
+    [Security.Principal.WindowsPrincipal]::new(
+        [Security.Principal.WindowsIdentity]::GetCurrent()
+    ).IsInRole(
+        [Security.Principal.WindowsBuiltInRole]::Administrator
+    )
+)) {
+    Write-Error "Administrator rights required. Rerun as Admin."
     exit 1
 }
+Write-Host "Step 0: Elevation check passed."
 
 # 1) Auto-start Chrome at login
-$chrome = 'C:\Program Files\Google\Chrome\Application\chrome.exe'
+$chrome = "C:\Program Files\Google\Chrome\Application\chrome.exe"
 if (Test-Path $chrome) {
-    New-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run `
-        -Name Chrome -Value "`"$chrome`"" -PropertyType String -Force | Out-Null
+    Set-RegistryProperty `
+        -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" `
+        -Name "Chrome" `
+        -PropertyType "String" `
+        -Value "`"$chrome`""
+    Write-Host "Step 1: Chrome auto-start configured."
+} else {
+    Write-Host "Step 1: Chrome not found, skipping."
 }
 
-# 2) skip
+# 2) Skip
+Write-Host "Step 2: skipped."
 
 # 3) Turn off Bing/web in Start Search
-$sk = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Search'
-foreach ($name in 'BingSearchEnabled', 'AllowSearchToUseWeb', 'CortanaConsent') {
-    New-ItemProperty -Path $sk -Name $name -PropertyType DWord -Value 0 -Force | Out-Null
+$searchKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Search"
+foreach ($name in "BingSearchEnabled","AllowSearchToUseWeb","CortanaConsent") {
+    Set-RegistryProperty -Path $searchKey -Name $name -PropertyType "DWord" -Value 0
 }
+Write-Host "Step 3: Disabled web integration in Start Search."
 
-# 4–8) Explorer “Advanced” tweaks
-$adv = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-$props = @{
-    ShowSearch            = 1  # show search box
-    ConfirmFileDelete     = 0  # disable delete confirmation
-    WarnOnExtensionChange = 0  # disable extension-change warning
-    HideFileExt           = 0  # always show extensions
-    EnableBalloonTips     = 0  # disable balloon tips
+# 4-8) Explorer "Advanced" tweaks
+$advKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced"
+$advProps = @{
+    ShowSearch = 1
+    ConfirmFileDelete = 0
+    WarnOnExtensionChange = 0
+    HideFileExt = 0
+    EnableBalloonTips = 0
 }
-foreach ($k in $props.Keys) {
-    New-ItemProperty -Path $adv -Name $k -PropertyType DWord -Value $props[$k] -Force | Out-Null
+foreach ($k in $advProps.Keys) {
+    Set-RegistryProperty -Path $advKey -Name $k -PropertyType "DWord" -Value $advProps[$k]
 }
+Write-Host "Step 4-8: Explorer advanced tweaks applied."
 
 # 9) Disable Start-menu app suggestions
-$cdm = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager'
-foreach ($n in 'SystemPaneSuggestionsEnabled', 'SubscribedContent-338388Enabled') {
-    New-ItemProperty -Path $cdm -Name $n -PropertyType DWord -Value 0 -Force | Out-Null
+$contentKey = "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+foreach ($name in "SystemPaneSuggestionsEnabled","SubscribedContent-338388Enabled") {
+    Set-RegistryProperty -Path $contentKey -Name $name -PropertyType "DWord" -Value 0
 }
+Write-Host "Step 9: Start-menu suggestions disabled."
 
 # 10) Disable Telemetry & related services
-$dc = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection'
-New-ItemProperty -Path $dc -Name AllowTelemetry -PropertyType DWord -Value 0 -Force | Out-Null
-foreach ($svc in 'DiagTrack', 'dmwappushsvc') {
+$dataKey = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+Set-RegistryProperty -Path $dataKey -Name "AllowTelemetry" -PropertyType "DWord" -Value 0
+foreach ($svc in "DiagTrack","dmwappushsvc") {
     if (Get-Service $svc -ErrorAction SilentlyContinue) {
         Stop-Service $svc -Force
-        Set-Service  $svc -StartupType Disabled
+        Set-Service $svc -StartupType Disabled
+        Write-Host "Stopped and disabled service $svc"
+    } else {
+        Write-Host "Service $svc not found"
     }
 }
+Write-Host "Step 10: Telemetry services handled."
 
 # 11) Prevent Windows Update auto-restart
-$wu = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU'
-New-ItemProperty -Path $wu -Name NoAutoRebootWithLoggedOnUsers -PropertyType DWord -Value 1 -Force | Out-Null
+$wuKey = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+Set-RegistryProperty -Path $wuKey -Name "NoAutoRebootWithLoggedOnUsers" -PropertyType "DWord" -Value 1
+Write-Host "Step 11: Windows Update auto-restart prevented."
 
 # 12) Disable Microsoft Store auto-updates
-$sp = 'HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore'
-New-ItemProperty -Path $sp -Name AutoDownload -PropertyType DWord -Value 2 -Force | Out-Null
+$storeKey = "HKLM:\SOFTWARE\Policies\Microsoft\WindowsStore"
+Set-RegistryProperty -Path $storeKey -Name "AutoDownload" -PropertyType "DWord" -Value 2
+Write-Host "Step 12: Microsoft Store auto-updates disabled."
 
-# 13) Remove these specific “bloatware” packages only
-$families = @(
-    'king.com.CandyCrushSaga',
-    'king.com.CandyCrushSodaSaga',
-    'king.com.CandyCrushFriends',
-    'Microsoft.MicrosoftSolitaireCollection',
-    'Microsoft.SkypeApp',
-    'Microsoft.XboxApp',
-    'Microsoft.XboxGamingOverlay',
-    'Microsoft.XboxSpeechToTextOverlay'
+# 13) Remove specific bloatware packages
+$bloatList = @(
+    "king.com.CandyCrushSaga",
+    "king.com.CandyCrushSodaSaga",
+    "king.com.CandyCrushFriends",
+    "Microsoft.MicrosoftSolitaireCollection",
+    "Microsoft.SkypeApp",
+    "Microsoft.XboxApp",
+    "Microsoft.XboxGamingOverlay",
+    "Microsoft.XboxSpeechToTextOverlay"
 )
-
-foreach ($f in $families) {
-    # Per‑user uninstall
-    $inst = Get-AppxPackage -AllUsers |
-    Where-Object { $_.PackageFamilyName -like "$f*" }
-    if ($inst) {
-        $inst | Remove-AppxPackage -ErrorAction SilentlyContinue
+foreach ($f in $bloatList) {
+    $userPkg = Get-AppxPackage -AllUsers | Where-Object { $_.PackageFamilyName -like "$f*" }
+    if ($userPkg) {
+        $userPkg | Remove-AppxPackage -ErrorAction SilentlyContinue
+        Write-Host "Uninstalled per-user $f"
     }
-
-    # Provisioned uninstall
-    $prov = Get-AppxProvisionedPackage -Online |
-    Where-Object { $_.PackageName -like "$f*" }
-    if ($prov) {
-        $prov | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+    $provPkg = Get-AppxProvisionedPackage -Online | Where-Object { $_.PackageName -like "$f*" }
+    if ($provPkg) {
+        $provPkg | Remove-AppxProvisionedPackage -Online -ErrorAction SilentlyContinue
+        Write-Host "Uninstalled provisioned $f"
     }
 }
+Write-Host "Step 13: Bloatware removal complete."
 
+# 15) Disable Lock-Screen Spotlight & ads
+$cloudKey = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent"
+Set-RegistryProperty -Path $cloudKey -Name "DisableWindowsSpotlight" -PropertyType "DWord" -Value 1
+Set-RegistryProperty -Path $cloudKey -Name "DisableConsumerFeatures" -PropertyType "DWord" -Value 1
+Write-Host "Step 15: Spotlight and ads disabled."
 
-# 15) Disable Lock-Screen Spotlight & ads (ensure parent key exists)
-$cc = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\CloudContent'
-if (-not (Test-Path $cc)) { New-Item -Path $cc -Force | Out-Null }
-New-ItemProperty -Path $cc -Name DisableWindowsSpotlight -PropertyType DWord -Value 1 -Force | Out-Null
-New-ItemProperty -Path $cc -Name DisableConsumerFeatures   -PropertyType DWord -Value 1 -Force | Out-Null
+# 16) Prevent UWP apps from running in background
+$appPrivKey = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
+Set-RegistryProperty -Path $appPrivKey -Name "LetAppsRunInBackground" -PropertyType "DWord" -Value 2
+Write-Host "Step 16: Blocked UWP apps from background."
 
-# 16) Prevent UWP apps running in background (ensure parent key)
-$ap = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy'
-if (-not (Test-Path $ap)) { New-Item -Path $ap -Force | Out-Null }
-New-ItemProperty -Path $ap -Name LetAppsRunInBackground -PropertyType DWord -Value 2 -Force | Out-Null
-
-# 17) Remove OneDrive from startup & uninstall it
-Remove-ItemProperty -Path HKCU:\Software\Microsoft\Windows\CurrentVersion\Run `
-    -Name OneDrive -ErrorAction SilentlyContinue
-
-# Try the 64‑bit path first, then SysWOW64
+# 17) Remove OneDrive from startup & uninstall
+Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "OneDrive" -ErrorAction SilentlyContinue
+Write-Host "Removed OneDrive from startup registry"
 $odPaths = @(
     "$env:SystemRoot\System32\OneDriveSetup.exe",
     "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
 )
 foreach ($od in $odPaths) {
     if (Test-Path $od) {
-        Start-Process -FilePath $od -ArgumentList '/uninstall' -NoNewWindow -Wait
+        Start-Process -FilePath $od -ArgumentList "/uninstall" -NoNewWindow -Wait
+        Write-Host "Uninstalled OneDrive via $od"
         break
     }
 }
+Write-Host "Step 17: OneDrive uninstall attempted."
 
-# 18) Restart Explorer once
+# 18) Restart Explorer
 Stop-Process -Name explorer -Force
 Start-Process explorer.exe
+Write-Host "Step 18: Explorer restarted."
 
-Write-Host 'All tweaks applied — Explorer restarted once. No loops, no unintended removals.'
+Write-Host "All tweaks applied - script complete."
