@@ -1,24 +1,26 @@
 <base>
-[lfn]>[fn1t]
+[hk4]>[del]
+[lfn]>[lctr]
+[rfn]>[rctr]
+[rctr]>[fn1s]
 [del]>[fn1s]
-{hk1}>{s5}{x1}{home}{lshf}{end}{bksp}
-{hk2}>{s5}{x1}{left}{lshf}{lctr}{bksp}
-{hk3}>{s5}{x1}{r}{rwin}{c}{h}{r}{o}{m}{e}{ent}
-{hk4}>{del}
-{lalt}{scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
-* -------------------------------------------
+{hk1}>{s9}{x1}{home}{-lshf}{end}{+lshf}{bspc}
+{hk2}>{s9}{x1}{-lshf}{-lctr}{left}{+lshf}{+lctr}{bspc}
+{hk3}>{s9}{x1}{r}{rwin}{c}{h}{r}{o}{m}{e}{ent}
+*
 <keypad>
-* -------------------------------------------
+*
 <function1>
-[o]>{-lshf}{obrk}{+lshf}
-[p]>{-lshf}{cbrk}{+lshf}
+{scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
 [u]>[obrk]
 [l]>[cbrk]
-[f]>[eql]
-[d]>[hyph]
+[comm]>[eql]
+[perd]>[hyph]
 [del]>[defs]
-* -------------------------------------------
+{o}>{s9}{x1}{-lshf}{7}{+lshf}
+{m}>{s9}{x1}{-lshf}{eql}{+lshf}
+*
 <function2>
-* -------------------------------------------
+*
 <function3>
-* -------------------------------------------
+*
