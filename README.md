@@ -4,6 +4,10 @@ This repository contains my various configurations for...things! See usage below
 
 Install [AutoHotkeyV2](https://www.autohotkey.com/v2/) for running the .ahk file. Remaps keys within the OS, and can be extended to application-specific.
 
+## 1. `advantage360.txt`
+
+Contains custom remappings for profile 1 of my advantage keyboard layout
+
 ## 2. `windows-setup.ps1`
 
 All-encompassing script for windows configuration

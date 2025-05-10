@@ -1,0 +1,24 @@
+<base>
+[lfn]>[fn1t]
+[del]>[fn1s]
+{hk1}>{s5}{x1}{home}{lshf}{end}{bksp}
+{hk2}>{s5}{x1}{left}{lshf}{lctr}{bksp}
+{hk3}>{s5}{x1}{r}{rwin}{c}{h}{r}{o}{m}{e}{ent}
+{hk4}>{del}
+{lalt}{scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
+* -------------------------------------------
+<keypad>
+* -------------------------------------------
+<function1>
+[o]>{-lshf}{obrk}{+lshf}
+[p]>{-lshf}{cbrk}{+lshf}
+[u]>[obrk]
+[l]>[cbrk]
+[f]>[eql]
+[d]>[hyph]
+[del]>[defs]
+* -------------------------------------------
+<function2>
+* -------------------------------------------
+<function3>
+* -------------------------------------------
