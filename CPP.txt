@@ -4,7 +4,7 @@ using namespace std;
 #[[#define tpl_ template]]#
 #[[#define tn_ typename]]#
 #[[#define cx_ constexpr]]#
-#[[#define fn constexpr]]#
+#[[#define fn function]]#
 #[[#define f(i, to) for (int i = 0; i < (to); ++i)]]#
 #[[#define fe(i, to) for (int i = 1; i <= (to); ++i)]]#
 #[[#define rep(i, a, b) for (int i = (a); i <= (b); ++i)]]#
