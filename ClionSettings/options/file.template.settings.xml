@@ -1,0 +1,40 @@
+<application>
+  <component name="ExportableFileTemplateSettings">
+    <internal_templates>
+      <template name="C Header File.h" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="C Source File.c" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="C++ Class.cc" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="C++ Class Header.h" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="C++ Module File.ixx" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="CMakeLists.txt.cmake" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="CSS File.css" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Dockerfile." reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="HTML File.html" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="HTTP Private Environment File.json" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="HTTP Public Environment File.json" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="HTTP Request.http" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="HTTP Request Scratch.http" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="JavaScript File.js" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="JSX File.jsx" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Less File.less" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Makefile.mk" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="package.json.json" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="PostCSS File.pcss" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Python Script.py" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Python Stub.pyi" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Python Unit Test.py" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Qt Class.cpp" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Qt Class Header.h" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Qt Designer Form.ui" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Sass File.sass" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="SCSS File.scss" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Setup Script.py" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="tsconfig.json.json" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="TypeScript File.ts" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="TypeScript JSX File.tsx" reformat="false" live-template-enabled="false" enabled="true" />
+      <template name="Vue Class API Component.vue" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="Vue Composition API Component.vue" reformat="false" live-template-enabled="true" enabled="true" />
+      <template name="Vue Options API Component.vue" reformat="false" live-template-enabled="true" enabled="true" />
+    </internal_templates>
+  </component>
+</application>
