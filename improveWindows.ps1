@@ -141,21 +141,6 @@ $appPrivKey = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\AppPrivacy"
 Set-RegistryProperty -Path $appPrivKey -Name "LetAppsRunInBackground" -PropertyType "DWord" -Value 2
 Write-Host "Step 16: Blocked UWP apps from background."
 
-# 17) Remove OneDrive from startup & uninstall
-Remove-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Run" -Name "OneDrive" -ErrorAction SilentlyContinue
-Write-Host "Removed OneDrive from startup registry"
-$odPaths = @(
-    "$env:SystemRoot\System32\OneDriveSetup.exe",
-    "$env:SystemRoot\SysWOW64\OneDriveSetup.exe"
-)
-foreach ($od in $odPaths) {
-    if (Test-Path $od) {
-        Start-Process -FilePath $od -ArgumentList "/uninstall" -NoNewWindow -Wait
-        Write-Host "Uninstalled OneDrive via $od"
-        break
-    }
-}
-Write-Host "Step 17: OneDrive uninstall attempted."
 
 # 18) Restart Explorer
 Stop-Process -Name explorer -Force
