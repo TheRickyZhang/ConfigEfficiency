@@ -1,6 +1,0 @@
-Batch Scripts Support
-org.plugin.dot.id
-com.intellij.plugin.adernov.powershell
-org.jetbrains.toolbox-enterprise-client
-IdeaVIM
-com.github.copilot

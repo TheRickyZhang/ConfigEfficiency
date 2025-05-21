@@ -1,5 +1,0 @@
-<application>
-  <component name="PathMacrosImpl">
-    <macro name="CMAKE_PREFIX_PATH" value="/opt/ros/jazzy" />
-  </component>
-</application>

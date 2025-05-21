@@ -5,6 +5,8 @@
 [esc]>[eql]
 [lfn]>[lctr]
 [rfn]>[fn2t]
+[lalt]>[lctr]
+[lctr]>[lalt]
 [del]>[fn1s]
 [caps]>[esc]
 {hk1}>{s5}{x1}{-lalt}{tab}{+lalt}
@@ -25,10 +27,11 @@
 [9]>[F9]
 [0]>[F10]
 [hyph]>[F11]
-[u]>[obrk]
+[j]>[obrk]
 [l]>[cbrk]
-{y}>{s9}{-lshf}{obrk}{+lshf}
+{u}>{s9}{-lshf}{obrk}{+lshf}
 {o}>{s9}{-lshf}{cbrk}{+lshf}
+{h}>{s9}{x1}{-lshf}{eql}{+lshf}
 [m]>[home]
 [comm]>[end]
 [del]>[defs]
@@ -57,6 +60,4 @@
 {fsls}>{s9}{x1}{-lctr}{fsls}{+lctr}
 {scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
 <function2>
-[u]>[obrk]
-[l]>[cbrk]
 <function3>
