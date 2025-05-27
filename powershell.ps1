@@ -13,25 +13,3 @@ function pfp {
     . "$PROFILE"
     Write-Output "pfp applied"
 }
-
-# Create a new file with a default extension (cpp by default)
-function mk {
-    param (
-        [string]$Name,
-        [string]$Extension = "cpp",
-        [string]$FolderPath = (Get-Location)
-    )
-
-    if ($Name -notmatch '\.\w+$') {
-        $Name = "$Name.$Extension"
-    }
-
-    $FilePath = Join-Path -Path $FolderPath -ChildPath $Name
-    if (Test-Path $FilePath) {
-        Write-Host "File '$FilePath' already exists!" -ForegroundColor Yellow
-    }
-    else {
-        New-Item -Path $FilePath -ItemType File -Force | Out-Null
-        Write-Host "File '$FilePath' created successfully." -ForegroundColor Green
-    }
-}

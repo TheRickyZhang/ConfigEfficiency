@@ -1,0 +1,25 @@
+"----------------------------
+" IdeaVim configuration
+"----------------------------
+
+let mapleader = " "
+
+set clipboard=unnamedplus
+
+" Delete without overwriting the default register
+nmap <leader>d "_d
+vmap <leader>d "_d
+
+" Smart paste
+xmap <leader>p "_dP
+
+" Keep cursor centered
+nmap <C-d> <C-d>zz
+nmap <C-u> <C-u>zz
+nmap n     nzzzv
+nmap N     Nzzzv
+
+" Quick project-wide search & replace of word under cursor
+nmap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
+
+

@@ -1,3 +1,25 @@
+## Notable IDE edits
+These shortcuts are used on top of vim bindings and are not comprehensive, just the ones I can remember well enough.
+
+Global:
+Ctrl + Shift + A -> Run Current File (ex bind to External Tools: run.bat)
+Ctrl + Shift + N -> New Source File (Of whatever IDE-specific)
+Alt + F -> Tab Switcher AND Down on Tab Switcher
+
+Clion:
+Editor -> Code Style -> Inspections -> Clang-Tidy  (remove warnings about .size())
+-modernize-use-empty,-cppcoreguidelines-narrowing-conversions
+Add CPP Template
+
+IntelliJ:
+
+Ctrl + Shift + H: Global Search and Replace
+Alt + G: Open (Selection of file choices)
+
+VSCode:
+
+Visual Studio:
+
 ### Set PowerShell 7 as Default Terminal
 1. Add an entry in `settings.json` of your terminal.
 2. Set the default ID to PowerShell 7.
