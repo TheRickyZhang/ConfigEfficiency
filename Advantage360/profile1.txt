@@ -3,7 +3,7 @@
 [hyph]>[bsls]
 [bsls]>[hyph]
 [esc]>[eql]
-[lfn]>[lctr]
+[lfn]>[lctr]k
 [rfn]>[fn2t]
 [lalt]>[lctr]
 [lctr]>[lalt]
@@ -11,7 +11,7 @@
 [caps]>[esc]
 {hk1}>{s5}{x1}{-lalt}{tab}{+lalt}
 [hk2]>[esc]
-{hk3}>{s9}{x1}{-lshf}{eql}{+lshf}
+[hk3]>[esc]
 [hk4]>[del]
 <keypad>
 <function1>
