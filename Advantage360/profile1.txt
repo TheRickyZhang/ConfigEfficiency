@@ -11,7 +11,7 @@
 [caps]>[esc]
 {hk1}>{s5}{x1}{-lalt}{tab}{+lalt}
 [hk2]>[esc]
-[hk3]>[esc]
+[hk3]>[esc]s
 [hk4]>[del]
 <keypad>
 <function1>
@@ -39,6 +39,8 @@
 {k}>{s9}{x1}{-lshf}{7}{+lshf}
 {left}>{s9}{x1}{-lctr}{left}{+lctr}
 {rght}>{s9}{x1}{-lctr}{rght}{+lctr}
+{up}>{s9}{x1}{-lctr}{up}{+lctr}
+{down}>{s9}{x1}{-lctr}{down}{+lctr}
 {q}>{s9}{x1}{-lctr}{q}{+lctr}
 {w}>{s9}{x1}{-lctr}{w}{+lctr}
 {e}>{s9}{x1}{-lctr}{e}{+lctr}
@@ -57,6 +59,8 @@
 {h}>{s9}{x1}{-lctr}{h}{+lctr}
 {n}>{s9}{x1}{-lctr}{n}{+lctr}
 {p}>{s9}{x1}{-lctr}{p}{+lctr}
+{bspc}>{s9}{x1}{-lctr}{bspc}{+lctr}
+{del}>{s9}{x1}{-lctr}{del}{+lctr}
 {fsls}>{s9}{x1}{-lctr}{fsls}{+lctr}
 {scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
 <function2>
