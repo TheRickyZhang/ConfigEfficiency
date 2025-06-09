@@ -1,0 +1,2 @@
+map <c-u> scrollPageUp
+map <c-d> scrollPageDown
