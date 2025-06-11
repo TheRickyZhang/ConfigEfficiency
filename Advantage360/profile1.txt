@@ -10,8 +10,8 @@
 [del]>[fn1s]
 [caps]>[esc]
 {hk1}>{s5}{x1}{-lalt}{tab}{+lalt}
-[hk2]>[esc]
-[hk3]>[esc]s
+{hk2}>{s9}{x1}{-lalt}{spc}{+lalt}{-lshf}{comm}{+lshf}{spc}
+[hk3]>[esc]
 [hk4]>[del]
 <keypad>
 <function1>
@@ -31,11 +31,8 @@
 [l]>[cbrk]
 {u}>{s9}{-lshf}{obrk}{+lshf}
 {o}>{s9}{-lshf}{cbrk}{+lshf}
-{h}>{s9}{x1}{-lshf}{eql}{+lshf}
-[m]>[home]
-[comm]>[end]
-[del]>[defs]
 {m}>{s9}{x1}{-lshf}{eql}{+lshf}
+[del]>[defs]
 {k}>{s9}{x1}{-lshf}{7}{+lshf}
 {left}>{s9}{x1}{-lctr}{left}{+lctr}
 {rght}>{s9}{x1}{-lctr}{rght}{+lctr}
