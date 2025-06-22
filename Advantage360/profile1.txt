@@ -3,14 +3,14 @@
 [hyph]>[bsls]
 [bsls]>[hyph]
 [esc]>[eql]
-[lfn]>[lctr]k
+[lfn]>[lctr]
 [rfn]>[fn2t]
 [lalt]>[lctr]
 [lctr]>[lalt]
 [del]>[fn1s]
 [caps]>[esc]
 {hk1}>{s5}{x1}{-lalt}{tab}{+lalt}
-{hk2}>{s9}{x1}{-lalt}{spc}{+lalt}{-lshf}{comm}{+lshf}{spc}
+{hk2}>{s9}{x1}{-lalt}{spc}{+lalt}
 [hk3]>[esc]
 [hk4]>[del]
 <keypad>
@@ -27,6 +27,7 @@
 [9]>[F9]
 [0]>[F10]
 [hyph]>[F11]
+[bsls]>[F12]
 [j]>[obrk]
 [l]>[cbrk]
 {u}>{s9}{-lshf}{obrk}{+lshf}
@@ -53,6 +54,7 @@
 {c}>{s9}{x1}{-lctr}{c}{+lctr}
 {v}>{s9}{x1}{-lctr}{v}{+lctr}
 {b}>{s9}{x1}{-lctr}{b}{+lctr}
+{y}>{s9}{x1}{-lctr}{y}{+lctr}
 {h}>{s9}{x1}{-lctr}{h}{+lctr}
 {n}>{s9}{x1}{-lctr}{n}{+lctr}
 {p}>{s9}{x1}{-lctr}{p}{+lctr}
@@ -60,5 +62,6 @@
 {del}>{s9}{x1}{-lctr}{del}{+lctr}
 {fsls}>{s9}{x1}{-lctr}{fsls}{+lctr}
 {scol}>{s9}{x1}{-lshf}{obrk}{+lshf}{ent}
+{comm}>{s9}{grav}{grav}
 <function2>
 <function3>

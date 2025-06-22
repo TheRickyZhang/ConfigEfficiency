@@ -4,6 +4,7 @@
 
 let mapleader = " "
 
+" Share a clipboard
 set clipboard=unnamedplus
 
 " Delete without overwriting the default register
@@ -19,7 +20,28 @@ nmap <C-u> <C-u>zz
 nmap n     nzzzv
 nmap N     Nzzzv
 
-" Quick project-wide search & replace of word under cursor
+" Quick project-wide search & replace of word under cursor (enter word)
 nmap <leader>s :%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>
 
+" Convenient built-in functionalities
+set surround         " Use s in ysiw, cs, (visual)S for operating on surrounding characters
+set incsearch
+set ignorecase       " case‐insensitive by default
+set smartcase        " but case‐sensitive if you type a capital letter
 
+" Toggle highlighting
+nnoremap <leader>h :set hlsearch!<CR>
+
+" J -> use JetBrain's smarter line join
+set clipboard^=ideaputset ideajoin
+
+" Have * search for current visual selection literally
+xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
+xnoremap # :<C-u>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
+
+function! VSetSearch()
+  let temp = @s
+  normal! gv"sy
+  let @/ = '\V' . substitute( escape(@s, '/\'), '\n', '\\n', 'g' )
+  let @s = temp
+endfunction
