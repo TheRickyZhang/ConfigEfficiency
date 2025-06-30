@@ -48,6 +48,9 @@ nnoremap <silent> <leader>y /\{<CR>V%y
 nnoremap <silent> <leader>d /\{<CR>V%d
 nnoremap <silent> <leader>c /\{<CR>V%c
 
+  " press <leader>v then a char → visual select to next occurrence of that char
+nnoremap <silent> <leader>v :<C-u>let @/ = '\V'.escape(nr2char(getchar()),'\')<Bar>vgn<CR>
+
 " Have * search for current visual selection literally
 xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
 xnoremap # :<C-u>call VSetSearch()<CR>?<C-R>=@/<CR><CR>
