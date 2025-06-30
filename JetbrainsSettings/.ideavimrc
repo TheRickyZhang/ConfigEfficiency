@@ -1,4 +1,4 @@
-"----------------------------
+
 " IdeaVim configuration
 "----------------------------
 
@@ -34,6 +34,16 @@ nnoremap <leader>h :set hlsearch!<CR>
 
 " J -> use JetBrain's smarter line join
 set clipboard^=ideaputset ideajoin
+
+
+" delete until the next capital letter (A–Z)
+nnoremap ds d/[A-Z]<CR>
+
+" map <leader> keys to arrows
+nnoremap <silent> <leader>e <Up>
+nnoremap <silent> <leader>n <Down>
+nnoremap <silent> <leader>m <Left>
+nnoremap <silent> <leader>i <Right>
 
 " Have * search for current visual selection literally
 xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
