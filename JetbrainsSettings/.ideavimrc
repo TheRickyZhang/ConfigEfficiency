@@ -48,12 +48,15 @@ nnoremap <silent> <leader>y /\{<CR>V%y
 nnoremap <silent> <leader>d /\{<CR>V%d
 nnoremap <silent> <leader>c /\{<CR>V%c
 
-function! s:SelectToNextChar()
+function! s:SelectToNextCharWithMark()
   let c = nr2char(getchar())
-  let @/ = '\V' . escape(c, '\') 
-  normal! vgn 
+  normal! mz
+  execute "normal! /\V" . escape(c, '\/') . "\<CR>"
+  normal! v`z
 endfunction
-nnoremap <silent> <leader>v :call <SID>SelectToNextChar()<CR>
+
+" <leader>v then <char> → select from here thru next <char>
+nnoremap <silent> <leader>v :call <SID>SelectToNextCharWithMark()<CR>
 
 " Have * search for current visual selection literally
 xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
