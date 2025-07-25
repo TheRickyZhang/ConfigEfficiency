@@ -37,26 +37,46 @@ set clipboard^=ideaputset ideajoin
 
 nnoremap ds d/[A-Z]<CR>
 
+nnoremap <silent> <leader>v V$%
+
 " map <leader> keys to arrows
 nnoremap <silent> <leader>e <Up>
 nnoremap <silent> <leader>n <Down>
 nnoremap <silent> <leader>m <Left>
 nnoremap <silent> <leader>i <Right>
 
-" brace delimits
-nnoremap <silent> <leader>y /\{<CR>V%y
-nnoremap <silent> <leader>d /\{<CR>V%d
-nnoremap <silent> <leader>c /\{<CR>V%c
+" introduce _{word} with w, b, f, ge to mean a word as defined in CamelCase
+nnoremap <silent> <leader>w /\u<CR>
+onoremap <silent> <leader>w /\u<CR>
+xnoremap <silent> <leader>w /\u<CR>
 
-function! s:SelectToNextCharWithMark()
-  let c = nr2char(getchar())
+nnoremap <silent> <leader>b ?\u<CR>
+onoremap <silent> <leader>b ?\u<CR>
+xnoremap <silent> <leader>b ?\u<CR>
+
+nnoremap <silent> <leader>e /\u<CR>h
+onoremap <silent> <leader>e /\u<CR>h
+xnoremap <silent> <leader>e /\u<CR>h
+
+nnoremap <silent> <leader>ge ?\u<CR>l
+onoremap <silent> <leader>ge ?\u<CR>l
+xnoremap <silent> <leader>ge ?\u<CR>l
+
+" Build in comments into vim (Removed since no uncommenting feature yet)
+" nnoremap <silent> <C-/> I//<Space><Esc>
+" vnoremap <silent> <C-/> :s/^/\/\/ /<CR>gv
+
+
+function! s:SelectToNextCharInput()
+  let str = input('Select to next char: ')
+  if empty(str) | return | endif
+  let c = str[0]
   normal! mz
   execute "normal! /\V" . escape(c, '\/') . "\<CR>"
   normal! v`z
 endfunction
+nnoremap <silent> <leader>v :call <SID>SelectToNextCharInput()<CR>
 
-" <leader>v then <char> → select from here thru next <char>
-nnoremap <silent> <leader>v :call <SID>SelectToNextCharWithMark()<CR>
 
 " Have * search for current visual selection literally
 xnoremap * :<C-u>call VSetSearch()<CR>/<C-R>=@/<CR><CR>
