@@ -47,7 +47,7 @@ m::h
     Run "C:\Users\ricky\ConfigEfficiency\RickyHotkey.ahk"
 }
 ^!q:: {
-    Suspend(0)
+    Suspend(1)
     ToolTip("Hotkeys suspended!")
     Sleep(500)
     ToolTip("")
