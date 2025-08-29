@@ -1,33 +1,35 @@
-#Requires AutoHotkey v2.0
+#Requires AutoHotkey v2
 #SingleInstance Force
+#UseHook
+#InputLevel 1
+SendMode "Input"
+SendLevel 0
+SetKeyDelay -1
 
-
-;CapsLock::Ctrl
-LAlt::Backspace
-
+; --- CapsLock hold=Ctrl, tap="=" (Shift+=") ---
 SetCapsLockState "AlwaysOff"
 *CapsLock::{
-    s := GetKeyState("Shift","P")   ; SHIFT state at press
+    s := GetKeyState("Shift","P")
     Send "{Ctrl down}"
     KeyWait "CapsLock"
     Send "{Ctrl up}"
-    if (A_PriorKey = "CapsLock" || A_PriorKey = "LShift" || A_PriorKey = "RShift") {
-        if s
-            Send "{Shift down}{vkBB}{Shift up}"
-        else
-            Send "{vkBB}"                        ; '='
-    }
-}
-`::{
-    Send "{Alt down}{Tab}"
-    KeyWait "Tab"                 ; wait until j is released
-    Send "{Alt up}"
+    if (A_PriorKey="CapsLock" || A_PriorKey="LShift" || A_PriorKey="RShift")
+        Send (s? "{Text}+" : "{Text}=")
 }
 
+; --- Alt-Tab on ` (SC029) ---
+SC029::( Send "{Alt down}{Tab}", KeyWait "SC029", Send "{Alt up}" )
 
-LAlt::Return
-; Mimic symbol layer with key b
-#HotIf GetKeyState("LAlt", "P")
+; --- LAlt mod-tap: tap=Backspace, hold=Symbol layer ---
+tap := 160
+altHeld := false, altUsed := false
+*LAlt::{
+    altHeld := true, altUsed := false
+    SetTimer(() => (!GetKeyState("LAlt","P") && !altUsed ? (Send "{BS}") : 0), -tap)
+}
+*LAlt up:: altHeld := false
+
+#HotIf altHeld
 y::SendText "^"
 u::SendText "{"
 i::SendText "}"
@@ -36,7 +38,7 @@ h::SendText "#"
 j::SendText "("
 k::SendText ")"
 l::SendText "*"
-`;::SendText "\"
+`;::SendText "\"        ; semicolon key
 m::SendText "_"
 ,::SendText "<"
 .::SendText ">"
@@ -44,45 +46,34 @@ m::SendText "_"
 w::SendText "~"
 s::SendText "!"
 d::SendText "@"
-Tab::{
-    Send "{Alt down}{Tab}"
-    KeyWait "Tab"
-    Send "{Alt up}"
-}
-Space::Tab
+Space::(altUsed := true, Send "{Tab}")
 #HotIf
 
-; Colemak DH remapping
-e::f
-r::p
-t::b
-y::j
-u::l
-i::u
-o::y
-p::;
+; --- Colemak DH (emit text to avoid chains) ---
+e::SendText "f"
+r::SendText "p"
+t::SendText "b"
+y::SendText "j"
+u::SendText "l"
+i::SendText "u"
+o::SendText "y"
+p::SendText ";"
 
-; Home row
-s::r
-d::s
-f::t
-h::m
-j::n
-k::e
-l::i
-`;::o
+s::SendText "r"
+d::SendText "s"
+f::SendText "t"
+h::SendText "m"
+j::SendText "n"
+k::SendText "e"
+l::SendText "i"
+`;::SendText "o"       ; semicolon key
 
-z::x
-x::c
-c::d
-$SC030::Esc
-n::k
-m::h
+z::SendText "x"
+x::SendText "c"
+c::SendText "d"
+n::SendText "k"
+m::SendText "h"
 
-;Space & SC030::Send "{Esc}"     ; SC030 = physical B
-;Space::Send " "                 ; keep Space working when pressed alone
-Esc::z
-
-; Reverse quotes
-$SC028::SendText('"')
-$+SC028::SendText("'")
+; --- Reverse quotes on ' key (SC028) ---
+$SC028::SendText '"'
+$+SC028::SendText "'"
