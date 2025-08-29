@@ -6,7 +6,7 @@ SendMode "Input"
 SendLevel 0
 SetKeyDelay -1
 
-; --- CapsLock hold=Ctrl, tap="=" (Shift+=") ---
+; CapsLock: hold=Ctrl, tap "=" (Shift+=")
 SetCapsLockState "AlwaysOff"
 *CapsLock::{
     s := GetKeyState("Shift","P")
@@ -17,16 +17,12 @@ SetCapsLockState "AlwaysOff"
         Send (s? "{Text}+" : "{Text}=")
 }
 
-; --- Alt-Tab on ` (SC029) ---
+; Backtick -> Alt-Tab (wait on backtick itself)
 SC029::( Send "{Alt down}{Tab}", KeyWait "SC029", Send "{Alt up}" )
 
-; --- LAlt mod-tap: tap=Backspace, hold=Symbol layer ---
-tap := 160
-altHeld := false, altUsed := false
-*LAlt::{
-    altHeld := true, altUsed := false
-    SetTimer(() => (!GetKeyState("LAlt","P") && !altUsed ? (Send "{BS}") : 0), -tap)
-}
+; ---- LAlt = momentary symbol layer (no tap action) ----
+altHeld := false
+*LAlt:: altHeld := true
 *LAlt up:: altHeld := false
 
 #HotIf altHeld
@@ -38,7 +34,7 @@ h::SendText "#"
 j::SendText "("
 k::SendText ")"
 l::SendText "*"
-`;::SendText "\"        ; semicolon key
+`;::SendText "\"      ; semicolon key
 m::SendText "_"
 ,::SendText "<"
 .::SendText ">"
@@ -46,34 +42,34 @@ m::SendText "_"
 w::SendText "~"
 s::SendText "!"
 d::SendText "@"
-Space::(altUsed := true, Send "{Tab}")
+Space::Send "{Tab}"
 #HotIf
 
-; --- Colemak DH (emit text to avoid chains) ---
-e::SendText "f"
-r::SendText "p"
-t::SendText "b"
-y::SendText "j"
-u::SendText "l"
-i::SendText "u"
-o::SendText "y"
-p::SendText ";"
+; ---- Colemak-DH — native, modifier-aware, no recursion ----
+$e::f
+$r::p
+$t::b
+$y::j
+$u::l
+$i::u
+$o::y
+$p::SC027        ; ';'
 
-s::SendText "r"
-d::SendText "s"
-f::SendText "t"
-h::SendText "m"
-j::SendText "n"
-k::SendText "e"
-l::SendText "i"
-`;::SendText "o"       ; semicolon key
+$s::r
+$d::s
+$f::t
+$h::m
+$j::n
+$k::e
+$l::i
+$SC027::o        ; ';' -> o
 
-z::SendText "x"
-x::SendText "c"
-c::SendText "d"
-n::SendText "k"
-m::SendText "h"
+$z::x
+$x::c
+$c::d
+$n::k
+$m::h
 
-; --- Reverse quotes on ' key (SC028) ---
+; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
 $+SC028::SendText "'"
