@@ -18,7 +18,12 @@ SetCapsLockState "AlwaysOff"
 }
 
 ; Backtick -> Alt-Tab (wait on backtick itself)
-SC029::( Send "{Alt down}{Tab}", KeyWait "SC029", Send "{Alt up}" )
+`::{
+    Send "{Alt down}{Tab}"
+    KeyWait "Tab"
+    Send "{Alt up}"
+}
+
 
 ; ---- LAlt = momentary symbol layer (no tap action) ----
 altHeld := false
@@ -69,6 +74,8 @@ $x::c
 $c::d
 $n::k
 $m::h
+
+Esc::z
 
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
