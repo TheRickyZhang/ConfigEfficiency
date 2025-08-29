@@ -79,8 +79,8 @@ $SC030::Esc
 n::k
 m::h
 
-Space & SC030::Send "{Esc}"     ; SC030 = physical B
-Space::Send " "                 ; keep Space working when pressed alone
+;Space & SC030::Send "{Esc}"     ; SC030 = physical B
+;Space::Send " "                 ; keep Space working when pressed alone
 Esc::z
 
 ; Reverse quotes
