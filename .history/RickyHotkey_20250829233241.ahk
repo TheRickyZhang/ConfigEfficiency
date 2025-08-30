@@ -45,9 +45,6 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
-Esc::z
-$SC030::Esc 
-
 ; ---- Colemak-DH — native, modifier-aware, no recursion ----
 $e::f
 $r::p
@@ -72,8 +69,13 @@ $x::c
 $c::d
 $n::k
 $m::h
+$b::Esc
+
+Esc::z
 
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
 $+SC028::SendText "'"
 
+
+arsntnearsitneairst()*()*!@)*!@!!!!!!!!!!!@()*!@)!!*!*(!*(!!({}${!}$!!}!$!!)))arstxdcvkh,.

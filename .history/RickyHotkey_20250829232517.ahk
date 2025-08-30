@@ -25,28 +25,30 @@ SetCapsLockState "AlwaysOff"
 }
 
 
-#HotIf GetKeyState("LAlt","P")
-*y::SendText "^"
-*u::SendText "{"
-*i::SendText "}"
-*o::SendText "$"
-*h::SendText "#"
-*j::SendText "("
-*k::SendText ")"
-*l::SendText "*"
-*`;::SendText "\"
-*m::SendText "_"
-*,::SendText "<"
-*.::SendText ">"
-*/::SendText "|"
-*w::SendText "~"
-*s::SendText "!"
-*d::SendText "@"
+; ---- LAlt = momentary symbol layer (no tap action) ----
+altHeld := false
+*LAlt:: altHeld := true
+*LAlt up:: altHeld := false
+
+#HotIf altHeld
+y::SendText "^"
+u::SendText "{"
+i::SendText "}"
+o::SendText "$"
+h::SendText "#"
+j::SendText "("
+k::SendText ")"
+l::SendText "*"
+`;::SendText "\"      ; semicolon key
+m::SendText "_"
+,::SendText "<"
+.::SendText ">"
+/::SendText "|"
+w::SendText "~"
+s::SendText "!"
+d::SendText "@"
 Space::Send "{Tab}"
 #HotIf
-
-Esc::z
-$SC030::Esc 
 
 ; ---- Colemak-DH — native, modifier-aware, no recursion ----
 $e::f
@@ -73,7 +75,9 @@ $c::d
 $n::k
 $m::h
 
+
+Esc::z
+
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
 $+SC028::SendText "'"
-

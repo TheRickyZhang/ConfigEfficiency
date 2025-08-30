@@ -45,7 +45,7 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
-Esc::z
+Esc::
 $SC030::Esc 
 
 ; ---- Colemak-DH — native, modifier-aware, no recursion ----

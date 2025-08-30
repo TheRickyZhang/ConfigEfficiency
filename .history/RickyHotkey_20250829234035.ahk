@@ -76,4 +76,3 @@ $m::h
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
 $+SC028::SendText "'"
-

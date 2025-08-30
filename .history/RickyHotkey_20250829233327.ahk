@@ -46,7 +46,6 @@ Space::Send "{Tab}"
 #HotIf
 
 Esc::z
-$SC030::Esc 
 
 ; ---- Colemak-DH — native, modifier-aware, no recursion ----
 $e::f
@@ -71,9 +70,7 @@ $z::x
 $x::c
 $c::d
 $n::k
-$m::h
 
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'
 $+SC028::SendText "'"
-
