@@ -30,7 +30,6 @@ SetCapsLockState "AlwaysOff"
 *u::SendText "{"
 *i::SendText "}"
 *o::SendText "$"
-*p::SendText "%"
 *h::SendText "#"
 *j::SendText "("
 *k::SendText ")"
@@ -46,8 +45,8 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
-$Esc::z
-SC030::Send "{Esc}"
+Esc::z
+$SC030::Esc 
 
 ; ---- Colemak-DH — native, modifier-aware, no recursion ----
 $e::f
@@ -66,7 +65,7 @@ $h::m
 $j::n
 $k::e
 $l::i
-$`;::o        ; ';' -> o
+$SC027::o        ; ';' -> o
 
 $z::x
 $x::c
@@ -75,10 +74,7 @@ $n::k
 $m::h
 
 /::RShift
-$RShift::/
-$[::Backspace
-$=::[
-$F1::`
+RShift::/
 
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'

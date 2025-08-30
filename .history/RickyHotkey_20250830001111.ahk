@@ -66,7 +66,7 @@ $h::m
 $j::n
 $k::e
 $l::i
-$`;::o        ; ';' -> o
+$SC027::o        ; ';' -> o
 
 $z::x
 $x::c
@@ -78,7 +78,7 @@ $m::h
 $RShift::/
 $[::Backspace
 $=::[
-$F1::`
+F1::`
 
 ; Reverse quotes on apostrophe (SC028)
 $SC028::SendText '"'

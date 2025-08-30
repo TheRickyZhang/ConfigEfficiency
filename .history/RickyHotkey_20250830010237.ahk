@@ -35,7 +35,7 @@ SetCapsLockState "AlwaysOff"
 *j::SendText "("
 *k::SendText ")"
 *l::SendText "*"
-*`;::SendText "\"
+;::SendText "0"
 *m::SendText "_"
 *,::SendText "<"
 *.::SendText ">"
@@ -66,7 +66,7 @@ $h::m
 $j::n
 $k::e
 $l::i
-$`;::o        ; ';' -> o
+$SC027::o        ; ';' -> o
 
 $z::x
 $x::c
