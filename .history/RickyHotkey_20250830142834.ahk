@@ -59,13 +59,18 @@ SetCapsLockState "AlwaysOff"
 *`;::SendText "\"
 *m::SendText "_"
 *,::Send "{Down}"
-*.::Send "{Up}"
+*.::SendText ">"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
 *d::SendText "@"
 Space::Send "{Tab}"
 #HotIf
+
+LShift & z::Send "{Left}"
+LShift & x::Send "{Right}"
+RShift & ,::Send "{Down}"
+RShift & .::Send "{Up}"
 
 
 $Esc::z

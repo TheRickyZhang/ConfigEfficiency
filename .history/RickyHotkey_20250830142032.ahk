@@ -58,8 +58,8 @@ SetCapsLockState "AlwaysOff"
 *l::SendText "*"
 *`;::SendText "\"
 *m::SendText "_"
-*,::Send "{Down}"
-*.::Send "{Up}"
+*,::SendText "<"
+*.::SendText ">"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
@@ -67,6 +67,16 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
+; Take advantage of opposite-shift conventions for extra layer
+#HotIf GetKeyState("LShift", "P")
+*z::Send "{Left}"
+*x::Send "{Right}"
+#HotIf
+
+#HotIf GetKeyState("RShift", "P") 
+*,::Send "Down"
+*.::Send "Up"
+#HotIf
 
 $Esc::z
 SC030::Send "{Esc}"

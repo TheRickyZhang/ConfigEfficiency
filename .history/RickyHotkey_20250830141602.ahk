@@ -58,15 +58,17 @@ SetCapsLockState "AlwaysOff"
 *l::SendText "*"
 *`;::SendText "\"
 *m::SendText "_"
-*,::Send "{Down}"
-*.::Send "{Up}"
+*,::SendText "<"
+*.::SendText ">"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
 *d::SendText "@"
-Space::Send "{Tab}"
+Space::Send "{Tab}"=
 #HotIf
 
+#HotIf GetKeyState("LShift", "P")
+*z::Send "Left"
 
 $Esc::z
 SC030::Send "{Esc}"

@@ -58,8 +58,8 @@ SetCapsLockState "AlwaysOff"
 *l::SendText "*"
 *`;::SendText "\"
 *m::SendText "_"
-*,::Send "{Down}"
-*.::Send "{Up}"
+*,::SendText "<"
+*.::SendText ">"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
@@ -67,6 +67,8 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
+; Take advantage of opposite-shift conventions for extra layer
+X
 
 $Esc::z
 SC030::Send "{Esc}"

@@ -17,26 +17,6 @@ SetCapsLockState "AlwaysOff"
         Send (s? "{Text}+" : "{Text}=")
 }
 
-; Use / as RShift
-*/::{
-    s := GetKeyState("LShift","P")
-    Send "{RShift down}"
-    KeyWait "/"
-    Send "{RShift up}"
-    if (A_PriorKey="/" || A_PriorKey="LShift")
-        Send (s? "{Text}?" : "{Text}/")
-}
-
-; Add z to LShift
-*LShift::{
-    s := GetKeyState("RShift","P")
-    Send "{LShift down}"
-    KeyWait "LShift"
-    Send "{LShift up}"
-    if (A_PriorKey="LShift" || A_PriorKey="RShift")
-        Send (s? "{Text}Z" : "{Text}z")
-}
-
 ; Backtick -> Alt-Tab (wait on backtick itself)
 `::{
     Send "{Alt down}{Tab}"
@@ -58,15 +38,14 @@ SetCapsLockState "AlwaysOff"
 *l::SendText "*"
 *`;::SendText "\"
 *m::SendText "_"
-*,::Send "{Down}"
-*.::Send "{Up}"
+*,::SendText "<"
+*.::SendText ">"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
 *d::SendText "@"
 Space::Send "{Tab}"
 #HotIf
-
 
 $Esc::z
 SC030::Send "{Esc}"
@@ -96,6 +75,8 @@ $c::d
 $n::k
 $m::h
 
+/::RShift
+$RShift::/
 $[::Backspace
 $=::[
 $F1::`

@@ -59,7 +59,7 @@ SetCapsLockState "AlwaysOff"
 *`;::SendText "\"
 *m::SendText "_"
 *,::Send "{Down}"
-*.::Send "{Up}"
+*.::SendText "{Up}"
 */::SendText "|"
 *w::SendText "~"
 *s::SendText "!"
@@ -67,7 +67,7 @@ SetCapsLockState "AlwaysOff"
 Space::Send "{Tab}"
 #HotIf
 
-
+{Up}{Up}
 $Esc::z
 SC030::Send "{Esc}"
 
